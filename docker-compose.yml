@@ -1,42 +1,41 @@
 version: "3.6"
   
 services:
+  mysqldb:
+    image: mysql:5.7
+    container_name : mysqldb
+    restart: unless-stopped
+    environment:
+      - MYSQL_USER=toto
+      - MYSQL_PASSWORD=toor
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_DATABASE=room
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysqldb
+    networks:
+      - springmysql
+  
   spring:
     container_name: boot
     build: ./Application/Spring
-    restart: on-failure
+    #restart: on-failure
     depends_on:
-      - mysql
+      - mysqldb
     ports:
       - 8080:8080
     environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/room?useSSL=false",
-        "spring.datasource.username" :"root",
-        "spring.datasource.password" : "toor",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update"
-      }'
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/room?autoReconnect=true&useSSL=false
     volumes:
       - ./image/java/.m2:/root/.m2
     stdin_open: true
     tty: true
+    networks:
+      - springmysql
 
-  mysql:
-    image: mysql:5.7
-    container_name : mysql
-    restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD=toor
-      - MYSQL_DATABASE=room
-    ports:
-      - 3307:3306
-    volumes:
-      - db:/var/lib/mysql
-
-  
-
-
+networks:
+  springmysql:
 
 volumes:
   db:
