@@ -1,20 +1,23 @@
-FROM maven:3.8.3-openjdk-17
+FROM openjdk:11 as mysqldoc
+EXPOSE 8084
+WORKDIR /app
 
-COPY src  /usr/src
-COPY pom.xml /usr/src/app
-RUN ./mvnw dependency:go-offline
-RUN mvn -f /usr/src/app/pom.xml clean package spring-boot:repackage
-RUN  ./mvnw install -DskipTests=true 
+# Copy maven executable to the image
+COPY mvnw .
+COPY .mvn .mvn
 
+# Copy the pom.xml file
+COPY pom.xml .
 
-FROM java:17.0-jre
-RUN apt-get update
-RUN apt-get install mysql-client -y
-RUN apt-get install libmysql-java -y
+# Copy the project source
+COPY ./src ./src
+COPY ./pom.xml ./pom.xml
 
-FROM openjdk:17 
-ADD target/*.jar app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+RUN chmod 755 /app/mvnw
 
+RUN ./mvnw dependency:go-offline -B
 
+RUN ./mvnw package -DskipTests
+RUN ls -al
+ENTRYPOINT ["java","-jar","target/springboot-api-0.0.1-SNAPSHOT.jar"]
 
