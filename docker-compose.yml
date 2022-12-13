@@ -2,7 +2,7 @@ version: "3.6"
   
 services:
   mysqldb:
-    image: mysql:5.7
+    image: mysql:8
     container_name : mysqldb
     restart: unless-stopped
     environment:
@@ -15,11 +15,12 @@ services:
     volumes:
       - db:/var/lib/mysqldb
     networks:
-      - springmysql
+      - room-mysql
   
   spring:
     container_name: boot
-    build: ./Application/Spring
+    
+    build: ./application/spring
     #restart: on-failure
     depends_on:
       - mysqldb
@@ -27,15 +28,17 @@ services:
       - 8080:8080
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/room?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: toto
+      SPRING_DATASOURCE_PASSWORD: toor
     volumes:
-      - ./image/java/.m2:/root/.m2
+      - ./application/spring:/usr/app
     stdin_open: true
     tty: true
     networks:
-      - springmysql
+      - room-mysql
 
 networks:
-  springmysql:
+  room-mysql:
 
 volumes:
   db:

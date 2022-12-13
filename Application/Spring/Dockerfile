@@ -1,15 +1,20 @@
-FROM openjdk:17-alpine
+FROM maven:3.8.3-openjdk-17
 
-# Refer to Maven build -> finalName
-ARG JAR_FILE=./target/Api-0.0.1-SNAPSHOT.jar
+COPY src  /usr/src
+COPY pom.xml /usr/src/app
+RUN ./mvnw dependency:go-offline
+RUN mvn -f /usr/src/app/pom.xml clean package spring-boot:repackage
+RUN  ./mvnw install -DskipTests=true 
 
-# cd /opt/app
-WORKDIR /opt/app
 
-# cp target/spring-boot-web.jar /opt/app/app.jar
-COPY ${JAR_FILE} app.jar
+FROM java:17.0-jre
+RUN apt-get update
+RUN apt-get install mysql-client -y
+RUN apt-get install libmysql-java -y
 
-EXPOSE 8080
-# java -jar /opt/app/app.jar
+FROM openjdk:17 
+ADD target/*.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
+
+
 
