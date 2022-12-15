@@ -24,3 +24,4 @@ services:
       SPRING_DATASOURCE_PASSWORD: spring
     volumes:
       - ./application/spring:/usr/app
+      - ./application/spring/log:/usr/app/log
