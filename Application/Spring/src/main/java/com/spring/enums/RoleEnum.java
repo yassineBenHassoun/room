@@ -3,9 +3,11 @@ package com.spring.enums;
 public enum RoleEnum 
 {
    
-    SUPER_ADMIN ("SUPER_ADMIN"),
+
+    
     ADMIN ("ADMIN"),
-    CUSTOMER ("CUSTOMER");
+    MODERATOR("MODERATOR"),
+    USER ("USER");
 
     private String value;
 
