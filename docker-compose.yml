@@ -5,23 +5,36 @@ services:
     image: mysql:8
     container_name : mysqldb
     restart: unless-stopped
+    command: --init-file /data/mysql/init.sql
     environment:
-      - MYSQL_ROOT_PASSWORD=spring
+      MYSQL_ROOT_PASSWORD: spring
+      MYSQL_USER: root
+      MYSQL_DATABASE: room
     ports:
-      - 3306:3306
+      - "3306:3306"
+    volumes:
+      - ./data/mysql/init.sql:/data/mysql/init.sql
+    networks:
+      - spring_net
       
   app:
     container_name: boot
     build: ./application/spring
-   # restart: on-failure
+    #restart: on-failure
     depends_on:
       - data
     ports:
-      - 8080:8080
+      - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/room?autoReconnect=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/room
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: spring
     volumes:
       - ./application/spring:/usr/app
       #- ./application/spring/log:/usr/app/log
+    networks:
+      - spring_net
+
+networks:
+  spring_net:
+      

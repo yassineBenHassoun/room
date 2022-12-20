@@ -35,6 +35,10 @@ public class User
     @Size(max = 20)
     private String lastname;
 
+    @NotBlank
+    @Size(max = 20)
+    private String username;
+
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank
     @Size(max = 50)
@@ -42,7 +46,7 @@ public class User
     private String email;
 
     @NotBlank
-    @Size(max = 120)
+    @Size(min = 6, max = 40)
     private String password;
 
     @NotBlank
@@ -55,13 +59,22 @@ public class User
     private Set<Role> roles = new HashSet<>();
 
 
+    public User() {
+    }
 
-    public User(String fName,String lName, String mail , String pwd, Integer phone ) {
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+      }
+    
+    public User(String firstName,String lastName,String userName, String mail , String password, Integer phone ) {
         super();
-        this.firstname = fName;
-        this.lastname = lName;
+        this.firstname = firstName;
+        this.lastname = lastName;
+        this.username = userName;
         this.email = mail;
-        this.password = pwd;
+        this.password = password;
         this.phone = phone;
     }
 
@@ -84,6 +97,14 @@ public class User
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -110,5 +131,12 @@ public class User
         this.phone = phone;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+      }
+    
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
 }

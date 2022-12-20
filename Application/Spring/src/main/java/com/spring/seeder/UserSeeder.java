@@ -24,7 +24,7 @@ public class UserSeeder implements CommandLineRunner
 
         if(userRepository.count() == 0) {
 
-            User u1 = new User("yass","bnh","y.benhassoune@gmail.com","susanoo",0661265623);
+            User u1 = new User("yass","bnh","yasssinebnh","y.benhassoune@gmail.com","susanoo",0661265623);
 
             userRepository.save(u1);
         }

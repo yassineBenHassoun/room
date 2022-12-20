@@ -1,12 +1,11 @@
 package com.spring.entity;
 
-
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.spring.enums.RoleEnum;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,14 +22,18 @@ public class Role
     private Integer id;
 
     @Column
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 
-    public Role(String name) {
-        super();
+    public Role() {
+
+    }
+    
+    public Role(RoleEnum name){
         this.name = name;
     }
 
@@ -38,11 +41,11 @@ public class Role
         return this.id;
     }
 
-    public String getName() {
+    public RoleEnum getName() {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(RoleEnum name) {
         this.name = name;
     }
 

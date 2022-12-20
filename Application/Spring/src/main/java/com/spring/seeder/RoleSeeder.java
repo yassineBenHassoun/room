@@ -23,10 +23,9 @@ public class RoleSeeder implements CommandLineRunner
 
         if(roleRepository.count() == 0) {
 
-         
-            Role r1 = new Role(RoleEnum.ADMIN.toString());
-            Role r2 = new Role(RoleEnum.MODERATOR.toString());
-            Role r3 = new Role(RoleEnum.USER.toString());
+            Role r1 = new Role(RoleEnum.ADMIN);
+            Role r2 = new Role(RoleEnum.MODERATOR);
+            Role r3 = new Role(RoleEnum.USER);
 
             roleRepository.save(r1);
             roleRepository.save(r2);

@@ -28,7 +28,7 @@ public class PropertyService {
 	     URI location =  ServletUriComponentsBuilder
 	     .fromCurrentRequest()
 	     .path("/{id}")
-	     .buildAndExpand(savedProperty.getId()).toUri();
+	     .buildAndExpand(savedProperty.getClass()).toUri();
 	     return ResponseEntity.created(location).build();
 	  }
 	
@@ -47,7 +47,7 @@ public class PropertyService {
 	     URI location =  ServletUriComponentsBuilder
 	     .fromCurrentRequest()
 	     .path("/{id}")
-	     .buildAndExpand(savedProperty.getId()).toUri();
+	     .buildAndExpand(savedProperty.getClass()).toUri();
 	     return ResponseEntity.created(location).build();
 	  }
 }
