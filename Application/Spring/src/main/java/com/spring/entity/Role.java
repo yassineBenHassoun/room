@@ -1,53 +1,20 @@
 package com.spring.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.spring.enums.RoleEnum;
-
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Setter
-@Getter
-@Table(name="role")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Role 
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private RoleEnum name;
-
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<User> users = new HashSet<>();
-
-    public Role() {
-
-    }
-    
-    public Role(RoleEnum name){
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public RoleEnum getName() {
-        return this.name;
-    }
-
-    public void setName(RoleEnum name) {
-        this.name = name;
-    }
-
+	private String roleName;
+	
+	private String roleDescription;
 }
-
