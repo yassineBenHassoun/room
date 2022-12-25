@@ -1,11 +1,14 @@
 package com.spring.entity;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -22,7 +25,10 @@ import lombok.NoArgsConstructor;
 public class User 
 {
 
-    @Id
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
 	private String userName;
 	
 	private String userFirstName;
@@ -30,8 +36,13 @@ public class User
 	private String userLastName;
 	
 	private String userPassword;
+
+	private String email;
+
+	private Integer phone;
+
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "user_role", 
 			joinColumns = {
 					@JoinColumn(name = "user_id")
@@ -40,6 +51,6 @@ public class User
 					@JoinColumn(name = "role_id")
 			}
 	)
-	private Set<Role> roles;
+	private Set<Role> roles = new HashSet<>();
     
 }

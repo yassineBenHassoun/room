@@ -4,9 +4,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.spring.entity.JwtRequest;
-import com.spring.entity.JwtResponse;
 import com.spring.entity.User;
+import com.spring.entity.jwt.JwtRequest;
+import com.spring.entity.jwt.JwtResponse;
 import com.spring.repository.UserRepository;
 import com.spring.util.JwtUtil;
 
@@ -38,13 +38,13 @@ public class JwtService implements UserDetailsService
 		authenticate(userName, userPassword);
 		final UserDetails userDetaisl = loadUserByUsername(userName);
 		String newGeneratedToken = jwtUtil.generateToken(userDetaisl);
-		User user = userReop.findById(userName).get();
+		User user = userReop.findByUserName(userName);
 		return new JwtResponse(user, newGeneratedToken);
 	}
 	
     @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userReop.findById(username).get();
+		User user = userReop.findByUserName(username);
 		if (user != null) {
 			return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getUserPassword(), getAuthorities(user));
 		} else {

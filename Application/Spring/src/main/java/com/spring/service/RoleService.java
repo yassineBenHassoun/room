@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 public class RoleService 
 {
     
-        @Autowired
-        private RoleRepository roleRepo;
+    @Autowired
+    private RoleRepository roleRepo;
         
-        public Role createNewRole(Role role) {
-            return roleRepo.save(role);
+    public Role createNewRole(Role role) {
+        return roleRepo.save(role);
 	}
 }

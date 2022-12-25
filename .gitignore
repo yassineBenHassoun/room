@@ -1,0 +1,5 @@
+.vscode
+/Application/Spring/log/*
+/Application/Spring/.mwn
+/Application/Spring/target
+/Application/Spring/src/main/java/com/spring/seeder/**
