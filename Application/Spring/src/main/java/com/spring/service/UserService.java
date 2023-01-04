@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.spring.entity.Role;
 import com.spring.entity.User;
-import com.spring.enums.RoleEnum;
 import com.spring.repository.RoleRepository;
 import com.spring.repository.UserRepository;
 
@@ -13,24 +12,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
-    
+public class UserService 
+{
     @Autowired
-	private UserRepository userRepo;
+	private UserRepository userRepository;
 	
 	@Autowired
-	private RoleRepository roleRepo;
+	private RoleRepository roleRepository;
 	
 	@Autowired
 	private PasswordEncoder encoder;
 
-	public User registerNewUser(User user) {
-		Role adminRole = roleRepo.findByRoleName(RoleEnum.USER.name());
-		Set<Role> roles = new HashSet<>();
-		roles.add(adminRole);
-		user.setRoles(roles);
-		user.setUserPassword(encoder.encode(user.getUserPassword()));
-		return userRepo.save(user);
+
+	public User createBasicUser(User user) {
+
+		if (roleRepository.count() > 0) {
+
+			Role userRole = roleRepository.findByName("USER");
+			Set<Role> roles = new HashSet<>();
+			roles.add(userRole);
+			user.setRoles(roles);
+			user.setPassword(encoder.encode(user.getPassword()));
+			
+			return userRepository.save(user);
+
+		}
+		return user;	
 	}
-	
 }

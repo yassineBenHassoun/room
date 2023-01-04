@@ -1,6 +1,5 @@
 package com.spring.controller.api;
 
-import javax.annotation.PostConstruct;
 
 import com.spring.entity.User;
 import com.spring.service.UserService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-
 	@Autowired
 	private UserService userService;
 	
@@ -28,7 +26,7 @@ public class UserController {
 	
 	@PostMapping("/users")
 	public User registerNewUser(@RequestBody User user) {
-		return userService.registerNewUser(user);
+		return userService.createBasicUser(user);
 	}
 	
 	@GetMapping("/forAdmin")

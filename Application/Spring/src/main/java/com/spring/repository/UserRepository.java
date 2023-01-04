@@ -1,13 +1,15 @@
 package com.spring.repository;
 
-import com.spring.entity.User;
+
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import com.spring.entity.User;
 
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    User findByUserName (String name);
+    User findByUserName (String username);
 }

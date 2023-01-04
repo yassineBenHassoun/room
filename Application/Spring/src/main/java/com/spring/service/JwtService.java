@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class JwtService implements UserDetailsService 
 {
     @Autowired
-	private UserRepository userReop;
+	private UserRepository userRepository;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -38,15 +38,16 @@ public class JwtService implements UserDetailsService
 		authenticate(userName, userPassword);
 		final UserDetails userDetaisl = loadUserByUsername(userName);
 		String newGeneratedToken = jwtUtil.generateToken(userDetaisl);
-		User user = userReop.findByUserName(userName);
+		User user = userRepository.findByUserName(userName);
+		
 		return new JwtResponse(user, newGeneratedToken);
 	}
 	
     @Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userReop.findByUserName(username);
+		User user = userRepository.findByUserName(username);
 		if (user != null) {
-			return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getUserPassword(), getAuthorities(user));
+			return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), getAuthorities(user));
 		} else {
 			throw new UsernameNotFoundException("Username is not valid");
 		}
@@ -55,7 +56,7 @@ public class JwtService implements UserDetailsService
 	private Set<SimpleGrantedAuthority> getAuthorities(User user) {
 		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 		user.getRoles().forEach(role -> {
-			authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
+			authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
 		});
 		return authorities;
 	}

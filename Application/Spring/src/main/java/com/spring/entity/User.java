@@ -24,18 +24,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User 
 {
-
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 	private String userName;
 	
-	private String userFirstName;
+	private String firstName;
 	
-	private String userLastName;
+	private String lastName;
 	
-	private String userPassword;
+	private String password;
 
 	private String email;
 
