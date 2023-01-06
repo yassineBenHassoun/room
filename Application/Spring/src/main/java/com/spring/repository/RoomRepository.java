@@ -16,5 +16,7 @@ public interface RoomRepository  extends CrudRepository <Room, Long>
     List<Room> findAll();
 
     List<Room> findBySite(Site site);
+
+    Room findFirstByOrderByIdAsc();
 }
 

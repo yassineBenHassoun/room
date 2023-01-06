@@ -1,5 +1,8 @@
 package com.spring.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,5 +38,10 @@ public class Room
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "site_id", nullable = false)
     private Site site;
+
+
+    @OneToMany(mappedBy="room", fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
+    private Set<HourRoom> hourRooms;
     
 }
